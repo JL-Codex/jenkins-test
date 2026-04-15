@@ -15,15 +15,16 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-            steps {
-                sh '''
-                    mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:4.0.0.4121:sonar \
-                      -Dsonar.projectKey=jenkins-test \
-                      -Dsonar.host.url=http://localhost:9000 \
-                      -Dsonar.login=$SONAR_TOKEN
-                '''
-            }
-        }
+    steps {
+        sh '''
+            /home/codespace/sonar-scanner/bin/sonar-scanner \
+              -Dsonar.projectKey=jenkins-test \
+              -Dsonar.sources=src \
+              -Dsonar.host.url=http://localhost:9000 \
+              -Dsonar.login=$SONAR_TOKEN
+        '''
+    }
+}
 
         stage('Build') {
             steps {
