@@ -3,6 +3,8 @@ pipeline {
 
     environment {
         SONAR_TOKEN = credentials('sonar-token')
+        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
+        PATH = "${JAVA_HOME}/bin:${env.PATH}"
     }
 
     stages {
@@ -15,9 +17,10 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 sh '''
-                    mvn clean verify sonar:sonar \
+                    java -version
+                    mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:4.0.0.4121:sonar \
                       -Dsonar.projectKey=jenkins-test \
-                      -Dsonar.host.url=https://super-happiness-5vxw5wpg99wc4xww-9000.app.github.dev \
+                      -Dsonar.host.url=http://localhost:9000 \
                       -Dsonar.login=$SONAR_TOKEN
                 '''
             }
