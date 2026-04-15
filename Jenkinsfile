@@ -15,20 +15,17 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 sh '''
-                    echo "Testing SonarQube token availability"
-                    if [ -n "$SONAR_TOKEN" ]; then
-                      echo "Sonar token loaded successfully"
-                    else
-                      echo "Sonar token not found"
-                      exit 1
-                    fi
+                    mvn clean verify sonar:sonar \
+                      -Dsonar.projectKey=jenkins-test \
+                      -Dsonar.host.url=http://localhost:9000 \
+                      -Dsonar.login=$SONAR_TOKEN
                 '''
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Hello from Jenkins pipeline'
+                echo 'Build stage completed'
             }
         }
     }
