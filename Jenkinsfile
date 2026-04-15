@@ -17,7 +17,7 @@ pipeline {
                 sh '''
                     mvn clean verify sonar:sonar \
                       -Dsonar.projectKey=jenkins-test \
-                      -Dsonar.host.url=http://host.docker.internal:9000
+                      -Dsonar.host.url=https://super-happiness-5vxw5wpg99wc4xww-9000.app.github.dev \
                       -Dsonar.login=$SONAR_TOKEN
                 '''
             }
